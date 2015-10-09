@@ -21,7 +21,6 @@ Gui, Font, s11 cWhite, Segoe UI
 Gui, Add, Text, xm x15 r3, %notificationText%
 Gui, Add, Text, ym
 Gui, Show, NA, AHKNotification
-return
 
 Sleep, 1000
 t := 255
