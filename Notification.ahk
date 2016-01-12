@@ -27,6 +27,7 @@ Gui, Add, Text, xm x15 r3 vtxtMessageText, %notificationText%
 Gui, Add, Text, ym
 Gui, Show, % "y" yPosition, %winTitle%
 SetTimer, WatchMouse, 1000
+sleep, 10000
 return
 
 ~$LButton::
@@ -46,10 +47,9 @@ WatchMouse:
 	t := 255
 	Loop, 128
 	{
-		MouseGetPos, mouseX, mouseY
-		WinGetPos, winX, winY, winW, winH, %winTitle%
-		if ((mouseX >= winX && mouseX <= (winX+winW))
-			&& (mouseY >= winY && mouseY <= (winY+winH))) {
+		MouseGetPos,,, mouseWin
+		WinGetTitle, win, ahk_id %mouseWin%
+		if (win == winTitle) {
 			WinSet, Trans, 255, %winTitle%
 			break
 		}
