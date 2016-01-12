@@ -20,14 +20,26 @@ Gui, +ToolWindow +AlwaysOnTop -Caption +Border
 Gui, Color, 2A2B2F
 Gui, Margin, 0, 0
 Gui, Font, s30 c7FA2CF, Segoe UI Light
-Gui, Add, Text, x10, %notificationTitle%
+Gui, Add, Text, x10 vtxtMessageTitle, %notificationTitle%
 Gui, Font
 Gui, Font, s11 cWhite, Segoe UI
-Gui, Add, Text, xm x15 r3, %notificationText%
+Gui, Add, Text, xm x15 r3 vtxtMessageText, %notificationText%
 Gui, Add, Text, ym
 Gui, Show, % "y" yPosition, %winTitle%
 SetTimer, WatchMouse, 1000
 return
+
+~$LButton::
+{
+	MouseGetPos,,, mouseWin
+	WinGetTitle, win, ahk_id %mouseWin%
+	if (win == winTitle) {
+		GuiControlGet, messageTitle,, txtMessageTitle
+		GuiControlGet, messageText,, txtMessageText
+		Clipboard := messageTitle " - " messageText
+	}
+	return
+}
 
 WatchMouse:
 {
