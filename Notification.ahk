@@ -1,9 +1,3 @@
-/*
-	feature requets:
-		* click -> copy message to clipboard
-		* specify location with param
-*/
-
 #SingleInstance, Off
 SetBatchLines, -1
 SetWinDelay, 1
