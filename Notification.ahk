@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #SingleInstance, Off
 SetBatchLines, -1
 SetWinDelay, 1
