@@ -1,7 +1,7 @@
 #SingleInstance, Off
 SetBatchLines, -1
 SetWinDelay, 1
-CoordMode, Mouse, Screen
+CoordMode, Mouse, Screen-
 
 ; catch incoming params
 notificationTitle = %1%
@@ -26,7 +26,7 @@ Gui, Font
 Gui, Font, s11 cWhite, Segoe UI
 Gui, Add, Text, xm x15 r3 vtxtMessageText, %notificationText%
 Gui, Add, Text, ym
-Gui, Show, % "y" yPosition, %winTitle%
+Gui, Show, % "NA y" yPosition, %winTitle%
 
 ; start a 1 second timer to watch the position of the mouse
 SetTimer, WatchMouse, 1000
