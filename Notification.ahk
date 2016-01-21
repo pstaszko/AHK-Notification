@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #SingleInstance, Off
 SetBatchLines, -1
 SetWinDelay, 1
@@ -100,4 +101,3 @@ newGuid_Small() {
 		guid := guid . charList[var]
 	}
 	return guid
-}
