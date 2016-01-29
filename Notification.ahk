@@ -6,7 +6,8 @@ CoordMode, Mouse, Screen
 ; catch incoming params
 notificationTitle = %1%
 notificationText = %2%
-
+FormatTime RightNow
+FileAppend %RightNow%`n%notificationTitle%`n%notificationText%`n,c:\temp\notification.txt
 ; get the count of any existing notification windows
 WinGet, winCount, Count, AHKNotification
 
