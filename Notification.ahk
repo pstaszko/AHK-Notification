@@ -1,3 +1,10 @@
+;Bugs:
+;	Right click takes two clicks
+;Things to configure:
+;	Font,color,size title
+;	Font,color,size body
+;	duration
+;	pop in location/behavior
 #SingleInstance, Off
 SetBatchLines, -1
 SetWinDelay, 1
@@ -16,15 +23,35 @@ yPosition := 125*winCount
 
 ; set a unique notification title
 winTitle := "AHKNotification - " newGuid_Small()
-
+titleSize=30
+titleColor=7FA2CF
+titleFont=Segoe UI Light
+messageSize=11
+messageColor=White
+messageFont=Segoe UI
+/*
+if 3
+	titleSize = %3% 
+if 4
+	titleColor = %4% 
+if 5
+	titleFont = %5% 
+if 6
+	messageSize = %6% 
+if 7
+	messageColor = %7% 
+if 8
+	messageFont = %8% 
+*/
+;msgbox % messageColor
 ; notification display settings
 Gui, +ToolWindow +AlwaysOnTop -Caption +Border
 Gui, Color, 2A2B2F
 Gui, Margin, 0, 0
-Gui, Font, s30 c7FA2CF, Segoe UI Light
+Gui, Font, s%titleSize% c%titleColor%, %titleFont%
 Gui, Add, Text, x10 vtxtMessageTitle, %notificationTitle%
 Gui, Font
-Gui, Font, s11 cWhite, Segoe UI
+Gui, Font, s%messageSize% c%messageColor%, %messageFont%
 Gui, Add, Text, xm x15 r3 vtxtMessageText, %notificationText%
 Gui, Add, Text, ym
 Gui, Show, % "y" yPosition " NoActivate", %winTitle%
@@ -33,23 +60,30 @@ Gui, Show, % "y" yPosition " NoActivate", %winTitle%
 SetTimer, WatchMouse, 1000
 return
 
-; catch left clicks for copying the text
-~$LButton::
-{
-	; get the id of the window the mouse is over
-	MouseGetPos,,, mouseWin
-	
-	; get the window title
-	WinGetTitle, win, ahk_id %mouseWin%
-	
-	; if the mouse is over this notification, send the title and text to the clipboard
-	if (win == winTitle) {
-		GuiControlGet, messageTitle,, txtMessageTitle
-		GuiControlGet, messageText,, txtMessageText
-		Clipboard := messageTitle " - " messageText
+#If (WinActive(winTitle))
+	; catch left clicks for copying the text
+	~$LButton::
+	{
+		; get the id of the window the mouse is over
+		MouseGetPos,,, mouseWin
+		
+		; get the window title
+		WinGetTitle, win, ahk_id %mouseWin%
+		
+		; if the mouse is over this notification, send the title and text to the clipboard
+		if (win == winTitle) {
+			GuiControlGet, messageTitle,, txtMessageTitle
+			GuiControlGet, messageText,, txtMessageText
+			Clipboard := messageTitle " - " messageText
+		}
+		return
 	}
-	return
-}
+	~$RButton::
+	{
+		; Close window
+		winclose %winTitle%
+		return
+	}
 
 ; watch the mouse to see if it's over the notification
 WatchMouse:
