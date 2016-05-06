@@ -1,3 +1,4 @@
+#NoTrayIcon
 ;Bugs:
 ;	Right click takes two clicks
 ;Things to configure:
