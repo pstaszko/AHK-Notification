@@ -1,21 +1,66 @@
+#SingleInstance, Off
 #NoTrayIcon
+SetBatchLines, -1
+SetWinDelay, 1
+CoordMode, Mouse, Screen
+
 ;Bugs:
-;	Right click takes two clicks
+;	Right click takes two clicks (perhaps doesn't have focus on first one)
 ;Things to configure:
 ;	Font,color,size title
 ;	Font,color,size body
 ;	duration
 ;	pop in location/behavior
-#SingleInstance, Off
-SetBatchLines, -1
-SetWinDelay, 1
-CoordMode, Mouse, Screen
 
-; catch incoming params
-notificationTitle = %1%
-notificationText = %2%
-FormatTime RightNow
-FileAppend %RightNow%`n%notificationTitle%`n%notificationText%`n,c:\temp\notification.txt
+titleSize=30
+titleColor=7FA2CF
+titleFont=Segoe UI Light
+messageSize=11
+messageColor=White
+messageFont=Segoe UI
+
+;Loop through parameters and split apart on equals sign 
+loop %0%
+{
+	if % %a_index%
+	{
+		chunks:=StrSplit(%a_index%,"=")
+		varName:=trim(chunks[1])
+		varValue:=trim(chunks[2])
+		if varName
+			%varName%:=varValue
+	}
+}
+
+;Show help if no text was passed in
+if(!(notificationTitle or notificationText))
+{
+	msg=
+	(
+Call script with parameters specified as below:
+	Notification.ahk "notificationText=Some Text" "NotificationTitle=A Title"
+
+Available Parameters:
+	notificationTitle
+	notificationText
+	titleSize 
+	titleColor 
+	titleFont 
+	messageSize 
+	messageColor 
+	messageFont
+	logPath (save a record of notification calls)
+	)
+	msgbox % msg
+	ExitApp
+}
+
+;Log call if file path provided
+if logPath
+{
+	FormatTime RightNow
+	FileAppend %RightNow%`n%notificationTitle%`n%notificationText%`n,%logPath%
+}
 ; get the count of any existing notification windows
 WinGet, winCount, Count, AHKNotification
 
@@ -24,26 +69,6 @@ yPosition := 125*winCount
 
 ; set a unique notification title
 winTitle := "AHKNotification - " newGuid_Small()
-titleSize=30
-titleColor=7FA2CF
-titleFont=Segoe UI Light
-messageSize=11
-messageColor=White
-messageFont=Segoe UI
-/*
-if 3
-	titleSize = %3% 
-if 4
-	titleColor = %4% 
-if 5
-	titleFont = %5% 
-if 6
-	messageSize = %6% 
-if 7
-	messageColor = %7% 
-if 8
-	messageFont = %8% 
-*/
 ;msgbox % messageColor
 ; notification display settings
 Gui, +ToolWindow +AlwaysOnTop -Caption +Border
