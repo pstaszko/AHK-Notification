@@ -53,7 +53,8 @@ Gui, Font, s%titleSize% c%titleColor%, %titleFont%
 Gui, Add, Text, x10 vtxtMessageTitle, %notificationTitle%
 Gui, Font
 Gui, Font, s%messageSize% c%messageColor%, %messageFont%
-Gui, Add, Text, xm x15 r3 vtxtMessageText, %notificationText%
+if notificationText
+	Gui, Add, Text, xm x15 r3 vtxtMessageText, %notificationText%
 Gui, Add, Text, ym
 Gui, Show, % "y" yPosition " NoActivate", %winTitle%
 
