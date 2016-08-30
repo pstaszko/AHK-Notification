@@ -161,7 +161,7 @@ WatchMouse:
 		t := t-2
 		
 		; throttle the looping for performance
-		Sleep, 1
+		;Sleep, 1
 		
 		; if the current transparency level is less then or equal to 0, exit
 		if (t <= 0) {
