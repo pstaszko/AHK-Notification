@@ -40,7 +40,7 @@ if(!(notificationTitle or notificationText))
 Call script with parameters specified as below:
 	Notification.ahk "notificationText=Some Text" "NotificationTitle=A Title"
 
-Available Parameters:
+Available Parameters (case insensitive):
 	notificationTitle
 	notificationText
 	titleSize 
