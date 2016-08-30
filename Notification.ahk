@@ -93,7 +93,7 @@ if notificationText
 	Gui, Add, Text, xm x15 r3 vtxtMessageText, %notificationText%
 Gui, Add, Text, ym
 Gui, Show, % "y" yPosition " " ShowParams " NoActivate", %winTitle%
-
+WinGetPos x,x,width,height,%winTitle%
 ; start a 1 second timer to watch the position of the mouse
 SetTimer, WatchMouse, 1000
 return
@@ -128,8 +128,10 @@ WatchMouse:
 {
 	; start the transparency at full
 	t := 255
-	
+	yPixelsToMoveUp:=(yPosition + height) / 128
 	; loop 128 times (~1/2 of 255)
+	WinGetPos x,y,width,height,%winTitle%
+	NewY:=y
 	Loop, 128
 	{
 		; get the id of the window the mouse is over
@@ -143,12 +145,18 @@ WatchMouse:
 			
 			; set the transparency of the notification back to full and exit the loop
 			WinSet, Trans, 255, %winTitle%
+			NewY:=y
+			WinMove %winTitle%,,x,%NewY%
 			break
 		}
 		
 		; otherwise set a new transparency level
 		WinSet, Trans, %t%, %winTitle%
-		
+		NewY:=NewY-yPixelsToMoveUp
+		;msgbox NewY %NewY%
+		WinMove %winTitle%,,x,%NewY%
+		;msgbox % yPixelsToMoveUp
+
 		; adjust the transparency for the next iteration
 		t := t-2
 		
