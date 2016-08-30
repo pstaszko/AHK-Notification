@@ -18,6 +18,7 @@ titleFont=Segoe UI Light
 messageSize=11
 messageColor=White
 messageFont=Segoe UI
+backgroundColor=2A2B2F
 
 ;Loop through parameters and split apart on equals sign 
 loop %0%
@@ -35,6 +36,12 @@ loop %0%
 ;Show help if no text was passed in
 if(!(notificationTitle or notificationText))
 {
+	params=
+	loop %0%
+	{
+		params:=params "`t[" a_index "] " %a_index% "`n"
+	}
+	params:=rtrim(params)
 	msg=
 	(
 Call script with parameters specified as below:
@@ -47,9 +54,13 @@ Available Parameters (case insensitive):
 	titleColor 
 	titleFont 
 	messageSize 
-	messageColor 
+	messageColor
 	messageFont
+	backgroundColor
 	logPath (save a record of notification calls)
+
+You Passed
+%params%
 	)
 	msgbox % msg
 	ExitApp
@@ -72,7 +83,7 @@ winTitle := "AHKNotification - " newGuid_Small()
 ;msgbox % messageColor
 ; notification display settings
 Gui, +ToolWindow +AlwaysOnTop -Caption +Border
-Gui, Color, 2A2B2F
+Gui, Color, %backgroundColor%
 Gui, Margin, 0, 0
 Gui, Font, s%titleSize% c%titleColor%, %titleFont%
 Gui, Add, Text, x10 vtxtMessageTitle, %notificationTitle%
@@ -81,7 +92,7 @@ Gui, Font, s%messageSize% c%messageColor%, %messageFont%
 if notificationText
 	Gui, Add, Text, xm x15 r3 vtxtMessageText, %notificationText%
 Gui, Add, Text, ym
-Gui, Show, % "y" yPosition " NoActivate", %winTitle%
+Gui, Show, % "y" yPosition " " ShowParams " NoActivate", %winTitle%
 
 ; start a 1 second timer to watch the position of the mouse
 SetTimer, WatchMouse, 1000
