@@ -7,6 +7,9 @@ CoordMode, Mouse, Screen-
 notificationTitle = %1%
 notificationText = %2%
 
+; pad the title for a default width
+notificationTitle := pad(notificationTitle)
+
 ; get the count of any existing notification windows
 WinGet, winCount, Count, AHKNotification
 
@@ -100,3 +103,9 @@ newGuid_Small() {
 		guid := guid . charList[var]
 	}
 	return guid
+}
+pad(x) {
+	Loop, % 30 - StrLen(x)
+		x .= A_Space
+	return x
+}
