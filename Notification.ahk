@@ -12,9 +12,6 @@ CoordMode, Mouse, Screen
 ;	duration
 ;	pop in location/behavior
 
-; pad the title for a default width
-notificationTitle := pad(notificationTitle)
-
 titleSize=30
 titleColor=7FA2CF
 titleFont=Segoe UI Light
@@ -28,11 +25,11 @@ loop %0%
 {
 	if % %a_index%
 	{
-		chunks:=StrSplit(%a_index%,"=")
-		varName:=trim(chunks[1])
-		varValue:=trim(chunks[2])
+		chunks := StrSplit(%A_Index%, "=")
+		varName := trim(chunks[1])
+		varValue := trim(chunks[2])
 		if varName
-			%varName%:=varValue
+			%varName% := varValue
 	}
 }
 
@@ -42,9 +39,9 @@ if(!(notificationTitle or notificationText))
 	params=
 	loop %0%
 	{
-		params:=params "`t[" a_index "] " %a_index% "`n"
+		params := params "`t[" A_Index "] " %A_Index% "`n"
 	}
-	params:=rtrim(params)
+	params := RTrim(params)
 	msg=
 	(
 Call script with parameters specified as below:
@@ -65,16 +62,19 @@ Available Parameters (case insensitive):
 You Passed
 %params%
 	)
-	msgbox % msg
+	MsgBox, % msg
 	ExitApp
 }
 
 ;Log call if file path provided
 if logPath
 {
-	FormatTime RightNow
-	FileAppend %RightNow%`n%notificationTitle%`n%notificationText%`n,%logPath%
+	FormatTime, RightNow
+	FileAppend, %RightNow%`n%notificationTitle%`n%notificationText%`n, %logPath%
 }
+
+; pad the title for a default width
+notificationTitle := pad(notificationTitle)
 
 ; get the count of any existing notification windows
 WinGet, winCount, Count, AHKNotification
@@ -97,7 +97,8 @@ if notificationText
 	Gui, Add, Text, xm x15 r3 vtxtMessageText, %notificationText%
 Gui, Add, Text, ym
 Gui, Show, % "y" yPosition " " ShowParams " NoActivate", %winTitle%
-WinGetPos x,x,width,height,%winTitle%
+WinGetPos x, x, width, height, %winTitle%
+
 ; start a 1 second timer to watch the position of the mouse
 SetTimer, WatchMouse, 1000
 return
@@ -132,10 +133,11 @@ WatchMouse:
 {
 	; start the transparency at full
 	t := 255
-	yPixelsToMoveUp:=(yPosition + height) / 128
+	yPixelsToMoveUp := (yPosition + height) / 128
+	
 	; loop 128 times (~1/2 of 255)
-	WinGetPos x,y,width,height,%winTitle%
-	NewY:=y
+	WinGetPos x, y, width, height, %winTitle%
+	NewY := y
 	Loop, 128
 	{
 		; get the id of the window the mouse is over
@@ -149,14 +151,14 @@ WatchMouse:
 			
 			; set the transparency of the notification back to full and exit the loop
 			WinSet, Trans, 255, %winTitle%
-			NewY:=y
-			WinMove %winTitle%,,x,%NewY%
+			NewY := y
+			WinMove %winTitle%,, x, %NewY%
 			break
 		}
 		
 		; otherwise set a new transparency level
 		WinSet, Trans, %t%, %winTitle%
-		NewY:=NewY-yPixelsToMoveUp
+		NewY := NewY-yPixelsToMoveUp
 		;msgbox NewY %NewY%
 		WinMove %winTitle%,,x,%NewY%
 		;msgbox % yPixelsToMoveUp
