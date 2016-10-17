@@ -19,6 +19,7 @@ messageSize := 11
 messageColor := "White"
 messageFont := "Segoe UI"
 backgroundColor := "2A2B2F"
+padSize := 30
 
 ;Loop through parameters and split apart on equals sign 
 loop %0%
@@ -58,6 +59,7 @@ Available Parameters (case insensitive):
 	messageFont
 	backgroundColor
 	logPath (save a record of notification calls)
+	padSize
 
 You Passed
 %params%
@@ -74,7 +76,7 @@ if logPath
 }
 
 ; pad the title for a default width
-notificationTitle := pad(notificationTitle)
+notificationTitle := pad(notificationTitle,padSize)
 
 ; get the count of any existing notification windows
 WinGet, winCount, Count, AHKNotification
@@ -188,8 +190,8 @@ newGuid_Small() {
 	}
 	return guid
 }
-pad(x) {
-	Loop, % 30 - StrLen(x)
+pad(x,padSize) {
+	Loop, % padSize - StrLen(x)
 		x .= A_Space
 	return x
 }
