@@ -12,22 +12,23 @@ CoordMode, Mouse, Screen
 ;	duration
 ;	pop in location/behavior
 
-titleSize=30
-titleColor=7FA2CF
-titleFont=Segoe UI Light
-messageSize=11
-messageColor=White
-messageFont=Segoe UI
-backgroundColor=2A2B2F
+titleSize := 30
+titleColor := "7FA2CF"
+titleFont := "Segoe UI Light"
+messageSize := 11
+messageColor := "White"
+messageFont := "Segoe UI"
+backgroundColor := "2A2B2F"
 
 ;Loop through parameters and split apart on equals sign 
 loop %0%
 {
-	if % %a_index%
+	if % %A_Index%
 	{
 		chunks := StrSplit(%A_Index%, "=")
 		varName := trim(chunks[1])
 		varValue := trim(chunks[2])
+		MsgBox, % varName
 		if varName
 			%varName% := varValue
 	}
