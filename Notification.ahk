@@ -28,7 +28,6 @@ loop %0%
 		chunks := StrSplit(%A_Index%, "=")
 		varName := trim(chunks[1])
 		varValue := trim(chunks[2])
-		MsgBox, % varName
 		if varName
 			%varName% := varValue
 	}
