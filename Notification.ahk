@@ -34,7 +34,7 @@ loop %0%
 			%varName% := varValue
 	}
 }
-
+notificationText:=StrReplace(notificationText, "\\", "\") ;not sure why these are coming in as doubled up when I display a file path
 ;Show help if no text was passed in
 if(!(notificationTitle or notificationText))
 {
