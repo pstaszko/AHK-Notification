@@ -31,7 +31,8 @@ loop %0%
 		varName := trim(chunks[1])
 		varValue := trim(chunks[2])
 		if varName
-			%varName% := varValue
+			try
+				%varName% := varValue
 	}
 }
 notificationText:=StrReplace(notificationText, "\\", "\") ;not sure why these are coming in as doubled up when I display a file path
