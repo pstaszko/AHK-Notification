@@ -12,6 +12,16 @@ CoordMode, Mouse, Screen
 ;	duration
 ;	pop in location/behavior
 
+; get the count of any existing notification windows
+WinGet, winCount, Count, AHKNotification
+
+; adjust this notification y offset according to the existing count
+yPosition := 125*winCount
+if wincount > 5
+{
+	exitapp
+}
+
 titleSize := 30
 titleColor := "7FA2CF"
 titleFont := "Segoe UI Light"
@@ -79,12 +89,6 @@ if logPath
 
 ; pad the title for a default width
 notificationTitle := pad(notificationTitle,padSize)
-
-; get the count of any existing notification windows
-WinGet, winCount, Count, AHKNotification
-
-; adjust this notification y offset according to the existing count
-yPosition := 125*winCount
 
 ; set a unique notification title
 winTitle := "AHKNotification - " newGuid_Small()
