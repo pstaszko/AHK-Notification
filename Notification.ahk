@@ -33,7 +33,7 @@ backgroundColor := "2A2B2F"
 padSize := 30
 ignoreHover := 0
 
-;Loop through parameters and split apart on equals sign 
+;Loop through parameters and split apart on equals sign
 loop %0%
 {
 	if % %A_Index%
@@ -64,10 +64,10 @@ Call script with parameters specified as below:
 Available Parameters (case insensitive):
 	notificationTitle
 	notificationText
-	titleSize 
-	titleColor 
-	titleFont 
-	messageSize 
+	titleSize
+	titleColor
+	titleFont
+	messageSize
 	messageColor
 	messageFont
 	backgroundColor
@@ -118,10 +118,10 @@ return
 	{
 		; get the id of the window the mouse is over
 		MouseGetPos,,, mouseWin
-		
+
 		; get the window title
 		WinGetTitle, win, ahk_id %mouseWin%
-		
+
 		; if the mouse is over this notification, send the title and text to the clipboard
 		if (win == winTitle) {
 			GuiControlGet, messageTitle,, txtMessageTitle
@@ -143,7 +143,7 @@ WatchMouse:
 	; start the transparency at full
 	t := 255
 	yPixelsToMoveUp := (yPosition + height) / 128
-	
+
 	; loop 128 times (~1/2 of 255)
 	WinGetPos x, y, width, height, %winTitle%
 	NewY := y
@@ -153,13 +153,13 @@ WatchMouse:
 		{
 			; get the id of the window the mouse is over
 			MouseGetPos,,, mouseWin
-			
+
 			; get the window title
 			WinGetTitle, win, ahk_id %mouseWin%
-			
+
 			; if the mouse is over this notification
 			if (win == winTitle) {
-				
+
 				; set the transparency of the notification back to full and exit the loop
 				WinSet, Trans, 255, %winTitle%
 				NewY := y
@@ -167,7 +167,7 @@ WatchMouse:
 				break
 			}
 		}
-		
+
 		; otherwise set a new transparency level
 		WinSet, Trans, %t%, %winTitle%
 		NewY := NewY-yPixelsToMoveUp
@@ -177,10 +177,10 @@ WatchMouse:
 
 		; adjust the transparency for the next iteration
 		t := t-2
-		
+
 		; throttle the looping for performance
 		;Sleep, 1
-		
+
 		; if the current transparency level is less then or equal to 0, exit
 		if (t <= 0) {
 			ExitApp
