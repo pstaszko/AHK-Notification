@@ -1,4 +1,4 @@
-#Requires AutoHotkey v1.1.36.02
+#Requires AutoHotkey v1.1.37.02
 #SingleInstance, Off
 #NoTrayIcon
 SetBatchLines, -1
