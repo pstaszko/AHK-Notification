@@ -8,18 +8,21 @@
     <IsPackable>true</IsPackable>
     <PackageId>StarlyCode.AHK-Notification-FSharp</PackageId>
     <Title>AHK-Notification-FSharp</Title>
-    <VersionPrefix>0.2.10</VersionPrefix>
+    <VersionPrefix>0.3.6</VersionPrefix>
     <Description>
       AHK-Notification-FSharp provides a simple way to display toast notifications from dotnet applications.
     </Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/pstaszko/AHK-Notification.git</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
     <None Include="Notification.ahk" />
     <None Include="README.md" Pack="true" PackagePath="./" />
     <Compile Include="Notify.fs" />
     <None Include="publish.ps1" />
-    <Content Include="..\Notification.exe" Link="Notification.exe" Pack="true">
+    <Content Include="..\Notification.exe" Link="Notification.exe">
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
+      <Visible>false</Visible>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
