@@ -1,27 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>AHK_Notification_FSharp</RootNamespace>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
-
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>StarlyCode.AHK-Notification-FSharp</PackageId>
     <Title>AHK-Notification-FSharp</Title>
-    <VersionPrefix>0.2.0</VersionPrefix>
+    <VersionPrefix>0.2.10</VersionPrefix>
     <Description>
       AHK-Notification-FSharp provides a simple way to display toast notifications from dotnet applications.
     </Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
-
   <ItemGroup>
+    <None Include="Notification.ahk" />
+    <None Include="README.md" Pack="true" PackagePath="./" />
     <Compile Include="Notify.fs" />
     <None Include="publish.ps1" />
-    <None Include="..\Notification.exe" Link="Notification.exe">
+    <Content Include="..\Notification.exe" Link="Notification.exe" Pack="true">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
-
 </Project>

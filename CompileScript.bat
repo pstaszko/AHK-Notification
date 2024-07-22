@@ -1,0 +1,1 @@
+.\Compiler\Ahk2Exe.exe /in "Notification.ahk" /base ".\Compiler\Unicode 64-bit.bin"
