@@ -21,6 +21,7 @@ module Notify =
             PadSize: int
             IgnoreHover: bool
             MaximumMessageLength: int
+            LogCallsPath: string
         }
         static member Default title message =
             {
@@ -37,6 +38,7 @@ module Notify =
                 NotificationTitle = title
                 NotificationText = message
                 MaximumMessageLength = 100
+                LogCallsPath = ""
             }
     (*
 
@@ -65,17 +67,17 @@ ignoreHover := 0
 	padSize
     *)
 
-    //let private log exePath args =
-    //    let exe = System.IO.Path.GetFullPath(exePath)
-    //    let logMessage = $@"{exe} {args}"
-    //    //System.IO.File.AppendAllText(logPath, logMessage + Environment.NewLine) |> ignore
-    //    let q = logMessage
-    //    ()
+    let private log logCallsPath exePath args =
+        if logCallsPath |> str |> Seq.length > 0 then 
+            let exe = System.IO.Path.GetFullPath(exePath)
+            let logMessage = $@"{exe} {args}"
+            System.IO.File.AppendAllText(logCallsPath, logMessage + Environment.NewLine) |> ignore
+            //let q = logMessage
 
     let Notify (parameters: Parameters) =
         let exePath = @"Notification.exe"
         if System.IO.File.Exists(exePath) then
-            let message = parameters.NotificationText.Replace("\\", "\\\\").Substring(0, Math.Min(parameters.NotificationText.Length, parameters.MaximumMessageLength))
+            let message = parameters.NotificationText.Substring(0, Math.Min(parameters.NotificationText.Length, parameters.MaximumMessageLength))
             let args =
                 [
                    //Op: Auto
@@ -95,11 +97,11 @@ ignoreHover := 0
                 ]
                 |> Seq.filter (snd >> isNotEmpty)
                 |> Seq.map (fun (k, v) -> 
-                    let v = v.Replace("\\", "\\\\")
+                    //let v = v.Replace("\\", "\\\\")
                     $@"""%s{k}=%s{v}""")
                 |> String.concat " "
                 //|> fun x -> $@"""%s{exePath}"" {x}"
-            //log exePath args
+            log parameters.LogCallsPath exePath args
             System.Diagnostics.Process.Start(exePath, args) |> ignore
         else
             failwithf "%s doesn't exist." exePath
