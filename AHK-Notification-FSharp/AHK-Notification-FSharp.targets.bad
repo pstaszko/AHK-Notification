@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <ItemGroup Condition=" '$(Platform)' == 'x64' ">
+        <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x64\native\AAA64.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Link>AAA64.txt</Link>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(Platform)' == 'x86' OR '$(Platform)' == 'AnyCPU' ">
+        <Content Include="$(MSBuildThisFileDirectory)..\runtimes\win-x86\native\AAA86.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Link>AAA86.txt</Link>
+        </Content>
+    </ItemGroup>
+<Target Name="TestMessage" AfterTargets="Build" >
+    <Message Text="***********************************************************" Importance="high"/>
+    <Message Text="$(MSBuildThisFileDirectory)" Importance="high"/>
+    <Message Text="***********************************************************" Importance="high"/>
+</Target>
+
+</Project>

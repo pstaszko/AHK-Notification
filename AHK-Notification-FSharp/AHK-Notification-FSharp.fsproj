@@ -9,7 +9,8 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <PackageId>StarlyCode.AHK-Notification-FSharp</PackageId>
     <Title>AHK-Notification-FSharp</Title>
-    <VersionPrefix>0.3.10</VersionPrefix>
+    <VersionPrefix>0.3.16</VersionPrefix>
+    <PackageCopyToOutput>true</PackageCopyToOutput>
     <Description>
       AHK-Notification-FSharp provides a simple way to display toast notifications from dotnet applications.
     </Description>
@@ -17,14 +18,32 @@
     <RepositoryUrl>https://github.com/pstaszko/AHK-Notification.git</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="AHK-Notification-FSharp.targets.bad" />
     <None Include="Notification.ahk" />
     <None Include="README.md" Pack="true" PackagePath="./" />
     <Compile Include="Notify.fs" />
     <None Include="publish.ps1" />
-    <Content Include="..\Notification.exe" Link="Notification.exe">
-      <!--<PackagePath>lib/$(TargetFramework)</PackagePath>-->
-      <!--<Visible>false</Visible>-->
+    <Content Include="Notification\**\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Notification.exe" Link="../Notification.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <!--<ItemGroup>
+    <Content Include="AHK-Notification-FSharp.targets" PackagePath="build/AHK-Notification-FSharp.targets" />
+    <Content Include="Notification/**/*.*" Pack="true" PackagePath="lib/netstandard2.0/Notification">
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+    </Content>
+  </ItemGroup>-->
+  <PropertyGroup>
+    <!-- https://docs.microsoft.com/en-us/visualstudio/msbuild/property-functions?view=vs-2022#calling-instance-methods-on-static-properties -->
+    <TimestampNow>$([System.DateTime]::Now.ToString('yyyyMMddHHmmss'))</TimestampNow>
+  </PropertyGroup>
+  <Target Name="BuildNuget" AfterTargets="AfterBuild">
+    <Exec Command="dotnet pack --no-build --include-symbols -o c:\dev\local-packages --version-suffix beta$(TimestampNow)" />
+  </Target>
 </Project>
