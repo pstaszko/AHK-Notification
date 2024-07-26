@@ -40,42 +40,15 @@ module Notify =
                 MaximumMessageLength = 100
                 LogCallsPath = ""
             }
-    (*
 
-titleSize := 30
-titleColor := "7FA2CF"
-titleFont := "Segoe UI Light"
-messageSize := 11
-messageColor := "White"
-messageFont := "Segoe UI"
-backgroundColor := "2A2B2F"
-padSize := 30
-ignoreHover := 0
-
-    *)
-    (*
-	notificationTitle
-	notificationText
-	titleSize
-	titleColor
-	titleFont
-	messageSize
-	messageColor
-	messageFont
-	backgroundColor
-	logPath (save a record of notification calls)
-	padSize
-    *)
-
-    let private log logCallsPath exePath args =
+    let private logCallParameters logCallsPath exePath args =
         if logCallsPath |> str |> Seq.length > 0 then 
             let exe = System.IO.Path.GetFullPath(exePath)
             let logMessage = $@"{exe} {args}"
             System.IO.File.AppendAllText(logCallsPath, logMessage + Environment.NewLine) |> ignore
-            //let q = logMessage
 
     let Notify (parameters: Parameters) =
-        let exePath = @"Notification.exe"
+        let exePath = @"AHK-Notification\AHK-Notification.exe"
         if System.IO.File.Exists(exePath) then
             let message = parameters.NotificationText.Substring(0, Math.Min(parameters.NotificationText.Length, parameters.MaximumMessageLength))
             let args =
@@ -83,7 +56,7 @@ ignoreHover := 0
                    //Op: Auto
                    "notificationText" , message
                    "notificationTitle", parameters.NotificationTitle
-                   "logFile"          , parameters.LogPath
+                   "logPath"          , parameters.LogPath
                    "backgroundColor"  , parameters.BackgroundColor
                    "padSize"          , parameters.PadSize |> str
                    "titleSize"        , parameters.TitleSize |> str
@@ -97,14 +70,9 @@ ignoreHover := 0
                 ]
                 |> Seq.filter (snd >> isNotEmpty)
                 |> Seq.map (fun (k, v) -> 
-                    //let v = v.Replace("\\", "\\\\")
                     $@"""%s{k}=%s{v}""")
                 |> String.concat " "
-                //|> fun x -> $@"""%s{exePath}"" {x}"
-            log parameters.LogCallsPath exePath args
+            logCallParameters parameters.LogCallsPath exePath args
             System.Diagnostics.Process.Start(exePath, args) |> ignore
         else
             failwithf "%s doesn't exist." exePath
-
-    //let NotifyBasic (title: string) (message: string) =
-    //    Notify "4e5057" title message
