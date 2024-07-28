@@ -1,4 +1,5 @@
 Growl(message,title="",MessageType="Standard Message"){
+	msgbox hi
 	if RegExMatch(message,"^[0| ]+$")
 		return
 	;notifScript=C:\Dev\Releases\AHK-Notification\Stable\Notification.ahk
