@@ -12,6 +12,7 @@ Growl(message,title="",MessageType="Standard Message"){
 			message:=SubStr(message, 1, 100)
 			cmd=%A_AhkPath% "%notifScript%" "notificationText=%message%" "notificationTitle=%title%" "logFile=c:\temp\notification.txt" "backgroundColor=4e5057" "padsize=0" "ignoreHover=1"
 			t(cmd)
+			msgbox % cmd
 			run %cmd%,,hide
 		}
 	}else{
