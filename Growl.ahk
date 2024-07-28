@@ -1,4 +1,4 @@
-Growl(message,title="",MessageType="Standard Message"){
+xGrowl(message,title="",MessageType="Standard Message"){
 	msgbox hi
 	if RegExMatch(message,"^[0| ]+$")
 		return
